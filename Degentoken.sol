@@ -15,13 +15,9 @@ contract DegenToken is ERC20 {
         _burn(add, value);
     }
 
-    function redeemDGN(uint256 shop) public returns (string memory){
+    function redeemDGN(uint256 shop) public {
         require(balanceOf(msg.sender)>=50, "You don't have required Degens.");
         _burn(msg.sender, 50);
-        if(shop==1) return "1 sports car has been added to your inventory, and 50 degens have been deducted.";
-        else if(shop==2) return "1 bungalow has been added to your inventory, and 50 degens have been deducted.";
-        else if(shop==3) return "1 loving partner has been added to your life, and 50 degens have been deducted.";
-        else return "Invalid input";
     }
 
     function getBalance() external view returns (uint256) {
