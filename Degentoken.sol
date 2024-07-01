@@ -4,7 +4,10 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract DegenToken is ERC20 {
-    constructor() ERC20("Degen", "DGN") {}
+    address public owner;
+    constructor() ERC20("Degen", "DGN") {
+        owner = msg.sender;
+    }
 
     function mintDGN(address add, uint256 value) public{
         _mint(add, value);
@@ -15,9 +18,11 @@ contract DegenToken is ERC20 {
         _burn(add, value);
     }
 
-    function redeemDGN(uint256 shop) public {
+    function redeemDGN(uint256 shop) public payable {
         require(balanceOf(msg.sender)>=50, "You don't have required Degens.");
-        _burn(msg.sender, 50);
+        if(shop==1) transfer(owner, 50);
+        if(shop==2) transfer(owner, 150);
+        if(shop==3) transfer(owner, 200);
     }
 
     function getBalance() external view returns (uint256) {
