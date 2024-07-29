@@ -7,6 +7,7 @@ contract DegenToken is ERC20 {
     address public owner;
     mapping(uint256 => uint256) public shopItems;
     mapping(uint256 => string) public shopItemNames;
+    string[] private invent;
 
     constructor() ERC20("Degen", "DGN") {
         owner = msg.sender;
@@ -16,6 +17,7 @@ contract DegenToken is ERC20 {
         shopItemNames[1] = "A sports car";
         shopItemNames[2] = "A bungalow with a swimming pool";
         shopItemNames[3] = "A job";
+        _mint(msg.sender, 500);
     }
 
     function mintDGN(address add, uint256 value) public {
@@ -31,10 +33,15 @@ contract DegenToken is ERC20 {
         require(balanceOf(msg.sender) >= shopItems[shop], "You don't have required Degens.");
         require(shopItems[shop] > 0, "Invalid shop item.");
         transfer(owner, shopItems[shop]);
+        invent.push(shopItemNames[shop]);
     }
 
     function getBalance() external view returns (uint256) {
         return balanceOf(msg.sender);
+    }
+
+    function inventory() external view returns(string[] memory){
+        return invent;
     }
 
     function shopContent() public pure returns (string memory) {
